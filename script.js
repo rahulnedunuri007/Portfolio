@@ -1,6 +1,7 @@
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 const year = document.getElementById("year");
+const header = document.querySelector(".header");
 
 if (menuToggle) {
   menuToggle.addEventListener("click", () => {
@@ -17,3 +18,33 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 if (year) {
   year.textContent = new Date().getFullYear();
 }
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 40) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
+});
+
+const revealElements = document.querySelectorAll(
+  ".section, .hero-text, .hero-card, .project-card, .skill-box, .about-box, .contact-box"
+);
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      }
+    });
+  },
+  {
+    threshold: 0.15,
+  }
+);
+
+revealElements.forEach((element) => {
+  element.classList.add("reveal");
+  observer.observe(element);
+});
